@@ -1,0 +1,47 @@
+---
+title: "ACP"
+format: html
+---
+
+
+```{r}
+#| warning: false
+#| message: false
+
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+library(FactoMineR)
+library(factoextra)
+library(corrplot)
+library(reticulate)
+```
+
+
+```{r}
+#| echo: false
+
+df = read.table("data.txt", header=TRUE)
+
+numeric_data = df[-c(11, 12, 13, 14, 15)]
+
+```
+la variance etant tres diff entre les colonnes, ceux qui ont la variance la plus importante vont influencer les axes factoriaux. donc on decide de faire une acp centrée réduite.
+
+
+```{r}
+#| echo: false
+
+respca = PCA(numeric_data, scale.unit = TRUE, quali.sup = 'Gender')
+
+
+fviz_pca_ind(respca, 
+             geom = "point", 
+             habillage = numeric_data$Gender,      
+             addEllipses = F)
+```
+```{r}
+#| echo: false
+fviz_eig(respca, addlabels = T)
+
+```

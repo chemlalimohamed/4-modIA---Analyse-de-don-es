@@ -117,7 +117,7 @@ ggplot(iris,aes(x=Species))+
 
 ### Les 4 variables quantitatives
 
-Nous nous intéressons maintenant aux 4 variables quantitatives (matrice $X$). La @fig-corrplot  montre les corrélations entre les 4 variables. On peut remarquer que la largeur et la longuer des pétales sont fortement corrélées positivement, ce n'est pas le cas pour les sépales. 
+Nous nous intéressons maintenant aux 4 variables quantitatives (matrice $X$). La @fig-corrplot  montre les corrélations entre les 4 variables. On peut remarquer que la largeur et la longuer des pétales sont fortement corrélées positivement, ce n'est pas le cas pour les sépales (bonsoir). 
 
 ```{r}
 #| echo: false

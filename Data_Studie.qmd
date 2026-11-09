@@ -13,17 +13,68 @@ Quarto enables you to weave together content and executable code into a finished
 When you click the **Render** button a document will be generated that includes both content and the output of embedded code. You can embed code like this:
 
 ```{r}
-Data = read.table("Data_Projet_4modIA_2627.txt")
+#| warning: false
+#| message: false
+
+library(ggplot2)
+library(gridExtra)
+library(reshape2)
+library(FactoMineR)
+library(factoextra)
+library(corrplot)
+library(reticulate)
+```
+
+```{r}
+Data = read.table("Data_Projet_4modIA_2627.txt", header=TRUE)
+head(Data)
 ```
 
 
 ```{r}
 #| echo: false
+dim(Data)
+```
+
+```{r}
+#| echo: false
+Data$Smoking_Status <- as.factor(Data$Smoking_Status)
+Data$Physical_Activity_Level <- as.factor(Data$Physical_Activity_Level)
+Data$Alcohol_Consumption <- as.factor(Data$Alcohol_Consumption)
+Data$Gender <- as.factor(Data$Gender)
+Data$Family_History <- as.factor(Data$Family_History)
+Data$Heart_Disease_Risk <- as.factor(Data$Heart_Disease_Risk)
+
 summary(Data)
+
+Data_quanti <- Data[, sapply(Data, is.numeric)]
+Data_quanti
+
+Data_quali <- Data[, sapply(Data, is.factor)]
+Data_quali
 ```
 
 ```{r}
 #| echo: false
-2 * 2
+apply(Data_quanti, 2, mean)
+apply(Data_quanti, 2, sd)
 ```
-The `echo: false` option disables the printing of code (only output is displayed).
+```{r}
+#| echo: false
+boxplot(Data_quanti, main="Distribution des varibles", col="lightblue")
+
+boxplot(scale(Data_quanti, center=TRUE, scale=TRUE), main="Distribution des varibles (centrées et réduites)", col="lightblue")
+```
+```{r}
+On observe beaucoup d outliers pour les variables Weight_kg, BMI et Cholesterol_HDL.
+```
+
+```{r}
+#| echo: false
+corrplot(cor(Data_quanti),method="ellipse")
+```
+```{r}
+#| echo: false
+On observe que les variables Weight_kg/BMI, Diastolic/Syntolic et Cholesterol_LDL/Cholesterol_Total sont très corrélés positivement.
+
+Les variables Weight_kg et Cholesterol_HDL sont corrélées négativement.
